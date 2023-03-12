@@ -215,6 +215,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkIfInputIsValidForHex() : Boolean{
 
         val input = binding.input.text.toString()
+        if (input[0] == '0' || input.length > 15) return false
         for (i in input){
 
             if (i in '0'..'9' || i in 'a'..'f' || i in 'A'..'F')
@@ -227,6 +228,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkIfInputIsValidForBin() : Boolean{
 
         val input = binding.input.text.toString()
+        if (input.length > 63) return false
         for (i in input){
 
             if (i != '0' && i != '1') return false
@@ -238,6 +240,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkIfInputIsValidForOctAndDec() : Boolean{
 
         val input = binding.input.text.toString()
+        if (input.length > 18) return false
         if (input[0] == '0') return false
         for (i in input){
 
@@ -251,45 +254,45 @@ class MainActivity : AppCompatActivity() {
 
     // convert from * to decimal
 
-    private fun convertFromHexToDec(hex : String) : Int{
+    private fun convertFromHexToDec(hex : String) : Long{
 
-        return hex.toInt(16)
+        return hex.toLong(16)
     }
 
-    private fun convertFromBinToDec(bin : String) : Int{
+    private fun convertFromBinToDec(bin : String) : Long{
 
-        return bin.toInt(2)
+        return bin.toLong(2)
     }
 
-    private fun convertFromOctToDec(oct : String) : Int{
+    private fun convertFromOctToDec(oct : String) : Long{
 
-        return oct.toInt(8)
+        return oct.toLong(8)
     }
 
-    private fun convertFromDecToDec(dec : String) : Int{
+    private fun convertFromDecToDec(dec : String) : Long{
 
-        return dec.toInt()
+        return dec.toLong()
     }
 
 
     // convert from decimal to *
 
-    private fun convertFromDecToBin(dec : Int) : String{
+    private fun convertFromDecToBin(dec : Long) : String{
 
-        return Integer.toBinaryString(dec)
+        return java.lang.Long.toBinaryString(dec)
     }
 
-    private fun convertFromDecToOct(dec : Int) : String{
+    private fun convertFromDecToOct(dec : Long) : String{
 
-        return Integer.toOctalString(dec)
+        return java.lang.Long.toOctalString(dec)
     }
 
-    private fun convertFromDecToHex(dec : Int) : String{
+    private fun convertFromDecToHex(dec : Long) : String{
 
-        return Integer.toHexString(dec)
+        return java.lang.Long.toHexString(dec)
     }
 
-    private fun convertFromDecToDec(dec : Int) : String{
+    private fun convertFromDecToDec(dec : Long) : String{
 
         return dec.toString()
     }
