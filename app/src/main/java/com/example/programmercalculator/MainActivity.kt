@@ -60,8 +60,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.convert.setOnClickListener {
 
-            if (inputIsEmpty()) makeAlertToast()
-            else if (convertFrom.isEmpty() || convertTo.isEmpty()) Toast.makeText(this, "Select Operation", Toast.LENGTH_SHORT).show()
+            if (binding.input.text.isEmpty()) makeAlertToast("Invalid Input")
+            else if (convertFrom.isEmpty() || convertTo.isEmpty()) makeAlertToast("Select Operation")
             else {
 
                 when(convertFrom){
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
 
-                        } else makeAlertToast()
+                        } else makeAlertToast("Invalid Input")
 
                     }
 
@@ -126,13 +126,13 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
 
-                        } else makeAlertToast()
+                        } else makeAlertToast("Invalid Input")
 
                     }
 
                     "Dec" ->{
 
-                        if (checkIfInputIsValidForOctAndDec()){
+                        if (checkIfInputIsValidForDec()){
 
                             val input = binding.input.text.toString()
                             when(convertTo){
@@ -158,13 +158,13 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
 
-                        } else makeAlertToast()
+                        } else makeAlertToast("Invalid Input")
 
                     }
 
                     "Oct" ->{
 
-                        if (checkIfInputIsValidForOctAndDec()){
+                        if (checkIfInputIsValidForOct()){
 
                             val input = binding.input.text.toString()
                             when(convertTo){
@@ -190,32 +190,23 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
 
-                        } else makeAlertToast()
+                        } else makeAlertToast("Invalid Input")
                     }
                 }
             }
         }
     }
 
+    private fun makeAlertToast(message : String){
 
-    private fun makeAlertToast(){
-
-        Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    // checking
-
-    private fun inputIsEmpty() : Boolean{
-
-        val input = binding.input.text.toString()
-        if (input == "") return true
-        return false
-    }
-
+    // Checking
     private fun checkIfInputIsValidForHex() : Boolean{
 
         val input = binding.input.text.toString()
-        if (input[0] == '0' || input.length > 15) return false
+        if ((input[0] == '0' && input.length > 1) || input.length > 15) return false
         for (i in input){
 
             if (i in '0'..'9' || i in 'a'..'f' || i in 'A'..'F')
@@ -237,11 +228,11 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun checkIfInputIsValidForOctAndDec() : Boolean{
+    private fun checkIfInputIsValidForDec() : Boolean{
 
         val input = binding.input.text.toString()
         if (input.length > 18) return false
-        if (input[0] == '0') return false
+        if (input[0] == '0' && input.length > 1) return false
         for (i in input){
 
             if (i in '0'..'9')
@@ -251,6 +242,19 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    private fun checkIfInputIsValidForOct() : Boolean{
+
+        val input = binding.input.text.toString()
+        if (input.length > 18) return false
+        if (input[0] == '0' && input.length > 1) return false
+        for (i in input){
+
+            if (i in '0'..'7')
+            else return false
+        }
+
+        return true
+    }
 
     // convert from * to decimal
 
@@ -273,7 +277,6 @@ class MainActivity : AppCompatActivity() {
 
         return dec.toLong()
     }
-
 
     // convert from decimal to *
 
